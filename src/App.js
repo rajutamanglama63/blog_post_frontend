@@ -1,24 +1,35 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Header from './components/Header'
+import Home from './components/Home';
+import About from './components/About';
+import Contact from './components/Contact';
+import Error from './components/Error';
 import './App.css';
 
+import {useDispatch} from 'react-redux';
+import {getArticles} from './redux/articles/action';
+import Create from './components/Create';
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getArticles);
+  }, [dispatch]);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Header />
+    <Switch>
+        <Route exact path = "/" component={Home} />
+        <Route exact path = "/about" component={About} />
+        <Route exact path = "/contact" component={Contact} />
+        <Route exact path = "/create" component={Create} />
+        <Route component={Error} />
+    </Switch>
+    </>
   );
 }
 
